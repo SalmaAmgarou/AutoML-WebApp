@@ -1,11 +1,14 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 from machine_learning.data_management.data_loader import load_data
 from machine_learning.data_management.data_preprocessing import select_target
-from machine_learning.data_management.Visualization import visualize_data
+from machine_learning.data_management.Visualization import visualize_data , create_correlation_heatmap
 
 if __name__ == "__main__":
-    st.set_page_config(page_title="Editable Dataframe Upload", page_icon="💾")
+    st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
     tab1, tab2 = st.tabs(["Upload Data", "Visualize Data"])
+
+    df = None
 
     with tab1:
         df = load_data()
@@ -15,3 +18,4 @@ if __name__ == "__main__":
 
     with tab2:
         visualize_data(df)
+

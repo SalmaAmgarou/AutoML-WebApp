@@ -3,16 +3,17 @@ import pandas as pd
 
 def load_data():
 
-
     if 'uploaded_files' not in st.session_state:
         st.session_state.uploaded_files = None
 
-    st.title("Editable Dataframe Upload")
+    st.title("Machine Learning in Action")
 
     uploaded_files = st.file_uploader("Choose a file", accept_multiple_files=True)
 
     if not uploaded_files:
-        st.warning("Please upload a file.")
+        code = '''def hello():
+        print("Hello, Please Upload a file!")'''
+        st.code(code, language='python')
         return None
 
     st.session_state.uploaded_files = uploaded_files
