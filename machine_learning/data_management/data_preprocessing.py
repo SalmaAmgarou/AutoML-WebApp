@@ -4,6 +4,9 @@ def select_target(dataframe):
     if dataframe is None:
         return None
 
+    if 'selected_target' not in st.session_state:
+        st.session_state.selected_target = None
+
     st.sidebar.header('Select column to predict')
     target = tuple(dataframe.columns)
     selected_target = st.sidebar.selectbox('Select target for prediction', target)
@@ -12,6 +15,7 @@ def select_target(dataframe):
 
     if confirm_button:
         st.sidebar.write('Selected target:', selected_target)
+        st.session_state.selected_target = selected_target
         preprocessing_options(dataframe)
 
 def preprocessing_options(dataframe):
