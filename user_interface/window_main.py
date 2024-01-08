@@ -24,4 +24,5 @@ def display_missing_values(dataframe):
 def display_descriptive_statistics(dataframe):
     st.header("")
     st.subheader(":orange[Descriptive Statistics]", anchor='center')
+    st.header("")
     st.write(dataframe.describe())
