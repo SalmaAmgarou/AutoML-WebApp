@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+from user_interface.window_main import display_data_information , display_missing_values , display_descriptive_statistics
 from machine_learning.data_management.data_loader import load_data
 from machine_learning.data_management.data_preprocessing import select_target
 from machine_learning.data_management.Visualization import visualize_data , create_correlation_heatmap
@@ -7,14 +8,25 @@ from machine_learning.data_management.Visualization import visualize_data , crea
 if __name__ == "__main__":
     st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
     tab1, tab2 = st.tabs(["Upload Data", "Visualize Data"])
-
     df = None
-
     with tab1:
         df = load_data()
         if df is not None:
-            st.write("Switch to the 'Visualize Data' tab to see the visualizations.")
+            st.write(":red[Switch to the 'Visualize Data' tab to see the visualizations.]")
+            columns = st.columns(2)  # Use st.columns instead of st.beta_columns
+
+            with columns[0]:
+                display_data_information(df)
+
+
+            with columns[1]:
+                display_missing_values(df)
+
+
+            display_descriptive_statistics(df)
             select_target(df)
+
+
 
     with tab2:
         visualize_data(df)
