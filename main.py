@@ -4,9 +4,17 @@ from user_interface.window_main import display_data_information , display_missin
 from machine_learning.data_management.data_loader import load_data
 from machine_learning.data_management.data_preprocessing import select_target
 from machine_learning.data_management.Visualization import visualize_data , create_correlation_heatmap
+from images import  *
 
 if __name__ == "__main__":
     st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
+    col1, col2 = st.columns(2)
+with col1:
+    st.image('/home/hafdaoui/PycharmProjects/RAFINHA/images/LOGO IADS FR.png',caption=None, width=30)
+
+# Right-aligned image
+with col2:
+    st.image('/home/hafdaoui/PycharmProjects/RAFINHA/images/fstt.png',caption=None, width=30)
     tab1, tab2 = st.tabs(["Upload Data", "Visualize Data"])
     df = None
     with tab1:
