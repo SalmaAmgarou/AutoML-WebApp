@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-
 def load_data():
 
     if 'uploaded_files' not in st.session_state:
@@ -37,7 +36,6 @@ def load_data():
         if not dataframes:
             st.warning("No valid data found in the uploaded files.")
             return None  # Return None if no valid data is found
-
         st.write("")
         st.write("")
         st.subheader("① Edit and select cells")
