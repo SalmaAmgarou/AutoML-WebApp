@@ -48,13 +48,22 @@ def handle_missing_values_categorical(df):
 
     return df
 
-def handle_outliers_zscore(df, threshold):
-    with st.sidebar.form(key='outliers_zscore_form'):
+def handle_outliers(df, threshold):
+    with st.sidebar.form(key='outliers_form'):
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
-        if st.checkbox("Apply Z-score Outlier Handling"):
+        outlier_method = st.radio("Outlier Handling Method", ["Z-score", "IQR"])  # Add radio button for outlier method
+
+        if outlier_method == "Z-score":
             threshold = st.number_input("Z-score Threshold", value=threshold)
             z_scores = np.abs((df[numeric_cols] - df[numeric_cols].mean()) / df[numeric_cols].std())
             df = df[(z_scores < threshold).all(axis=1)]
+        elif outlier_method == "IQR":
+            q1 = df[numeric_cols].quantile(0.25)
+            q3 = df[numeric_cols].quantile(0.75)
+            iqr = q3 - q1
+            lower_bound = q1 - 1.5 * iqr
+            upper_bound = q3 + 1.5 * iqr
+            df = df[~((df[numeric_cols] < lower_bound) | (df[numeric_cols] > upper_bound)).any(axis=1)]
 
         submit_button = st.form_submit_button("Apply")
     return df

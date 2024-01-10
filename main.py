@@ -3,7 +3,7 @@ from user_interface.window_main import display_data_information, display_missing
 from machine_learning.data_management.data_loader import load_data
 from machine_learning.data_management.data_preprocessing import (
     handle_missing_values_numeric,
-    handle_outliers_zscore,
+    handle_outliers,
     handle_missing_values_categorical,
     encoding_categorical,
     scaler,
@@ -75,7 +75,7 @@ def main():
                 st.sidebar.markdown(":red[Handle Missing Values (Categorical)]")
                 df = handle_missing_values_categorical(df)
                 st.sidebar.markdown(":red[Handle Outliers (Z-score) (Numeric)]")
-                df = handle_outliers_zscore(df, threshold=3.0)
+                df = handle_outliers(df, threshold=3.0)
                 st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="dot-matrix">Data transformation</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
