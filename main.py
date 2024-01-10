@@ -8,8 +8,8 @@ from machine_learning.data_management.data_preprocessing import (
     encoding_categorical,
     scaler,
 )
-from machine_learning.data_management.Visualization import visualize_data
 import time
+from machine_learning.data_management.Visualization import visualize_data
 
 def main():
     st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
@@ -55,51 +55,70 @@ def main():
 
     st.markdown('<p class="title">Machine Learning In Action</p>', unsafe_allow_html=True)
     tab1, tab2 = st.tabs(["Upload Data", "Visualize Data"])
-    df = None
+
+    if 'original_df' not in st.session_state:
+        st.session_state.original_df = None
+    if 'preprocessed_df' not in st.session_state:
+        st.session_state.preprocessed_df = None
+
     with tab1:
         with st.status("Downloading data..."):
+            st.session_state.original_df = load_data()
             time.sleep(0.8)
-            df = load_data()
 
-        if df is not None:
-            st.success('Data Downloaded Successfully!', icon="✅")
+        if st.session_state.original_df is not None:
+            st.success('Data Loaded Successfully!', icon="✅")
             st.write(":red[Switch to the 'Visualize Data' tab to see the visualizations.]")
             columns = st.columns(2)
 
-            with columns[0]:
-                st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
-                st.sidebar.markdown(":red[Handle Missing Values (Numeric)]")
-                df = handle_missing_values_numeric(df)
-                st.sidebar.markdown(":red[Handle Missing Values (Categorical)]")
-                df = handle_missing_values_categorical(df)
-                st.sidebar.markdown(":red[Handle Outliers (Z-score) (Numeric)]")
-                df = handle_outliers(df, threshold=3.0)
-                st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="dot-matrix">Data transformation</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
-                st.sidebar.markdown(":red[Encoding categorical and numeric]")
-                df = encoding_categorical(df)
-                st.sidebar.markdown(":red[Scaling and normalizing]")
-                df = scaler(df)
+
+
+
+
+
+
+
+            if st.session_state.preprocessed_df is None:
+                preprocessed_df = st.session_state.original_df.copy()
+            else:
+                preprocessed_df = st.session_state.preprocessed_df.copy()
+            st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
+            missing_values_numeric = st.sidebar.checkbox("Handle Missing Values (Numeric)")
+            if missing_values_numeric:
+                preprocessed_df = handle_missing_values_numeric(preprocessed_df)
+            missing_values_categorical = st.sidebar.checkbox("Handle Missing Values (Categorical)")
+            if missing_values_categorical:
+                preprocessed_df = handle_missing_values_categorical(preprocessed_df)
+            handle_out = st.sidebar.checkbox("Handle Outliers (Z-score)")
+            if handle_out:
+                preprocessed_df = handle_outliers(preprocessed_df, threshold=3.0)
+            st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="dot-matrix">Data transformation</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">------------------------</p>', unsafe_allow_html=True)
+            encoding = st.sidebar.checkbox("Encoding categorical and numeric")
+            if encoding:
+                preprocessed_df = encoding_categorical(preprocessed_df)
+            scaling = st.sidebar.checkbox("Scaling and normalizing")
+            if scaling:
+                preprocessed_df = scaler(preprocessed_df)
+
             st.header("")
-            st.data_editor(df)
+            st.data_editor(preprocessed_df)
             st.header("")
             col2, col3 = st.columns([1, 1])
             with col2:
-                display_data_information(df)
+                display_data_information(preprocessed_df)
             with col3:
-                display_missing_values(df)
-            display_descriptive_statistics(df)
+                display_missing_values(preprocessed_df)
+            display_descriptive_statistics(preprocessed_df)
+
+            st.session_state.preprocessed_df = preprocessed_df
 
     with tab2:
-        visualize_data(df)
-
-
-
-    # Use the dot matrix font for your text
-
+        visualize_data(st.session_state.original_df if st.session_state.original_df is not None else st.session_state.preprocessed_df)
 
 if __name__ == "__main__":
     main()
+
