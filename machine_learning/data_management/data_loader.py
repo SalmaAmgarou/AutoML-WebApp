@@ -5,8 +5,6 @@ def load_data():
     if 'uploaded_files' not in st.session_state:
         st.session_state.uploaded_files = None
 
-    st.title("Machine Learning in Action")
-    st.header("")
     uploaded_files = st.file_uploader("Choose a file", accept_multiple_files=True)
 
     if not uploaded_files:

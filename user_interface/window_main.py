@@ -1,14 +1,16 @@
 import streamlit as st
 import pandas as pd
 def display_data_information(dataframe):
-    st.subheader(":orange[Data Information]", anchor='center')
+    st.header("")
+    st.markdown('<p class="titles">Data Information</p>', unsafe_allow_html=True)
     st.write("Number of Rows:", dataframe.shape[0])
     st.write("Number of Columns:", dataframe.shape[1])
     st.write("Data Types:", dataframe.dtypes)
 
 # Function to display missing values
 def display_missing_values(dataframe):
-    st.subheader(":orange[Missing Values]", anchor='center')
+    st.header("")
+    st.markdown('<p class="titles">Missing Values</p>', unsafe_allow_html=True)
     missing_values = dataframe.isnull().sum()
     columns_with_missing_values = missing_values[missing_values > 0]
 
@@ -23,6 +25,6 @@ def display_missing_values(dataframe):
 # Function to display descriptive statistics
 def display_descriptive_statistics(dataframe):
     st.header("")
-    st.subheader(":orange[Descriptive Statistics]", anchor='center')
+    st.markdown('<p class="titles">Descriptive Statistics</p>', unsafe_allow_html=True)
     st.header("")
     st.write(dataframe.describe())

@@ -57,7 +57,6 @@ def handle_outliers_zscore(df, threshold):
             df = df[(z_scores < threshold).all(axis=1)]
 
         submit_button = st.form_submit_button("Apply")
-
     return df
 
 def encoding_categorical(dataframe):

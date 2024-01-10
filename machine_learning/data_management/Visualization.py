@@ -5,7 +5,7 @@ import plotly.express as px
 import time
 
 def visualize_data(dataframe):
-    st.subheader("Visualization Options", divider='red')
+    st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
 
     if 'selected_options' not in st.session_state:
         st.session_state.selected_options = []
@@ -70,6 +70,7 @@ def show_progress_bar():
 
 def plot_custom(dataframe):
     st.subheader(":orange[Bar Plot]")
+    st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
     st.header("")
 
     x = tuple(dataframe.columns)
@@ -87,7 +88,7 @@ def plot_custom(dataframe):
         )
         st.plotly_chart(fig)
 def create_correlation_heatmap(dataframe):
-    st.subheader(":orange[Correlation Heatmap]")
+    st.markdown('<p class="titles">Correlation Heatmap</p>', unsafe_allow_html=True)
     st.header("")
 
     if dataframe is None:
@@ -107,7 +108,7 @@ def create_correlation_heatmap(dataframe):
 
 
 def scatter_plot(dataframe):
-    st.subheader(":orange[Scatter Plot]")
+    st.markdown('<p class="titles">Scatter Plot</p>', unsafe_allow_html=True)
     st.header("")
 
     numeric_cols = dataframe.select_dtypes(exclude="object").columns.to_list()
@@ -127,7 +128,7 @@ def scatter_plot(dataframe):
 
 
 def create_area_chart(dataframe):
-    st.subheader(":orange[Area Chart]")
+    st.markdown('<p class="titles">Area Chart</p>', unsafe_allow_html=True)
     st.header("")
 
     numeric_cols = dataframe.select_dtypes(exclude="object").columns.to_list()
@@ -144,7 +145,7 @@ def create_area_chart(dataframe):
 
 
 def seaborn_histogram(dataframe):
-    st.subheader(":orange[Seaborn Histogram]")
+    st.markdown('<p class="titles">Seaborn Histogram</p>', unsafe_allow_html=True)
     st.header("")
 
     numeric_cols = dataframe.select_dtypes(include=['float64', 'int64'],exclude="object").columns
