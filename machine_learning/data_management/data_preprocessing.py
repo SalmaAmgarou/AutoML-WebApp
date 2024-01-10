@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 def select_target(dataframe):
@@ -89,18 +90,25 @@ def encoding_categorical(dataframe):
 
     return dataframe
 
+
 def scaler(dataframe):
     with st.sidebar.form(key='scaling_form'):
-        feature_scaling_option = st.radio("Technique", ["None", "Normalization", "Standardization"])
+        feature_scaling_option = st.radio("Technique", ["None", "Normalization", "Standardization", "MinMaxScaler"])
         submit_scaling = st.form_submit_button("Apply Scaling")
 
     if submit_scaling:
+        # Get numerical columns
+        numeric_cols = dataframe.select_dtypes(include=np.number).columns.tolist()
+
         # Apply scaling based on user choices
         if feature_scaling_option == "Normalization":
-            # Your Normalization logic here
-            pass
+            scaler = MinMaxScaler()
+            dataframe[numeric_cols] = scaler.fit_transform(dataframe[numeric_cols])
         elif feature_scaling_option == "Standardization":
-            # Your Standardization logic here
-            pass
+            scaler = StandardScaler()
+            dataframe[numeric_cols] = scaler.fit_transform(dataframe[numeric_cols])
+        elif feature_scaling_option == "MinMaxScaler":
+            scaler = MinMaxScaler(feature_range=(-1, 1))
+            dataframe[numeric_cols] = scaler.fit_transform(dataframe[numeric_cols])
 
     return dataframe

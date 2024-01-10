@@ -94,7 +94,7 @@ def main():
             encoding = st.sidebar.checkbox("Encoding categorical and numeric")
             if encoding:
                 preprocessed_df = encoding_categorical(preprocessed_df)
-            scaling = st.sidebar.checkbox("Scaling and normalizing")
+            scaling = st.sidebar.checkbox("Feature Scaling")
             if scaling:
                 preprocessed_df = scaler(preprocessed_df)
 
