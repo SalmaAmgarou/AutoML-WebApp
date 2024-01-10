@@ -26,13 +26,14 @@ def main():
             columns = st.columns(2)
 
             with columns[0]:
+                st.sidebar.header(":orange[Features selection]")
                 st.sidebar.markdown(":red[Handle Missing Values (Numeric)]")
                 df = handle_missing_values_numeric(df)
                 st.sidebar.markdown(":red[Handle Missing Values (Categorical)]")
                 df = handle_missing_values_categorical(df)
                 st.sidebar.markdown(":red[Handle Outliers (Z-score) (Numeric)]")
                 df = handle_outliers_zscore(df, threshold=3.0)
-                st.sidebar.header("Data transformation")
+                st.sidebar.header(":orange[Data transformation]")
                 st.sidebar.markdown(":red[Encoding categorical and numeric]")
                 df = encoding_categorical(df)
                 st.sidebar.markdown(":red[Scaling and normalizing]")
