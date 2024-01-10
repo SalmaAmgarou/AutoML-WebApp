@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 def select_target(dataframe):
     if dataframe is None:
         return None
@@ -68,21 +69,23 @@ def handle_outliers(df, threshold):
                 upper_bound = q3 + 1.5 * iqr
                 df = df[~((df[numeric_cols] < lower_bound) | (df[numeric_cols] > upper_bound)).any(axis=1)]
 
-    return df
+        return df
 
 def encoding_categorical(dataframe):
     with st.sidebar.form(key='encoding_form'):
-        encoding_categorical_option_cat = st.radio("Technique", ["None", "One Hot Encoding", "Label Encoding"])
-        submit_encoding= st.form_submit_button("Apply Scaling")
+        all_categorical_cols = dataframe.select_dtypes(include='object').columns.tolist()
+        cols_to_exclude = st.multiselect("Select columns to exclude from encoding", all_categorical_cols)
+        cols_to_encode = list(set(all_categorical_cols) - set(cols_to_exclude))
+        encoding_categorical_option_cat = st.radio("Technique", ["Label Encoding", "One Hot Encoding"])
+        submit_encoding = st.form_submit_button("Apply Encoding")
 
     if submit_encoding:
-        # Apply encoding based on user choices
-        if encoding_categorical_option_cat == "One Hot Encoding":
-            # Your One Hot Encoding logic here
-            pass
-        elif encoding_categorical_option_cat == "Label Encoding":
-            # Your Label Encoding logic here
-            pass
+        if encoding_categorical_option_cat == "Label Encoding":
+            for col in cols_to_encode:
+                if col in dataframe.columns:
+                    dataframe[col] = dataframe[col].astype('category').cat.codes
+        elif encoding_categorical_option_cat == "One Hot Encoding":
+            dataframe = pd.get_dummies(dataframe, columns=cols_to_encode)
 
     return dataframe
 
