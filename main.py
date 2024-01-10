@@ -41,8 +41,12 @@ def main():
             st.header("")
             st.markdown("--------------------------------------------------UPDATED DATASET----------------------------------------------------------")
             st.data_editor(df)
-            display_data_information(df)
-            display_missing_values(df)
+            st.header("")
+            col2, col3 = st.columns([1, 1])
+            with col2:
+                display_data_information(df)
+            with col3:
+                display_missing_values(df)
             display_descriptive_statistics(df)
 
     with tab2:
