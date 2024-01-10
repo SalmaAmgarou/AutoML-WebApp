@@ -55,7 +55,7 @@ def main():
         st.image('images/fstt.png',  width=420)
 
     st.markdown('<p class="title">Machine Learning In Action</p>', unsafe_allow_html=True)
-    tab1, tab2 = st.tabs(["Upload Data", "Visualize Data"])
+    tab1, tab2, tab3 = st.tabs(["Upload Data", "Visualize Data", "Data Modeling"])
 
     if 'original_df' not in st.session_state:
         st.session_state.original_df = None
@@ -112,6 +112,8 @@ def main():
 
     with tab2:
         visualize_data(st.session_state.preprocessed_df)
+    with tab3:
+        True
 
 if __name__ == "__main__":
     main()
