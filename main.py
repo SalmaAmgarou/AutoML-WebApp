@@ -76,9 +76,9 @@ def main():
                 preprocessed_df = st.session_state.original_df.copy()
             else:
                 preprocessed_df = st.session_state.preprocessed_df.copy()
-            st.sidebar.markdown('<p class="divider">#########################</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
             st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
-            st.sidebar.markdown('<p class="divider">#########################</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
             missing_values_numeric = st.sidebar.checkbox("Handle Missing Values (Numeric)")
             if missing_values_numeric:
                 preprocessed_df = handle_missing_values_numeric(preprocessed_df)
@@ -88,9 +88,9 @@ def main():
             handle_out = st.sidebar.checkbox("Handle Outliers (Z-score)")
             if handle_out:
                 preprocessed_df = handle_outliers(preprocessed_df, threshold=3.0)
-            st.sidebar.markdown('<p class="divider">#########################</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
             st.sidebar.markdown('<p class="dot-matrix">Data transformation</p>', unsafe_allow_html=True)
-            st.sidebar.markdown('<p class="divider">#########################</p>', unsafe_allow_html=True)
+            st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
             encoding = st.sidebar.checkbox("Encoding categorical and numeric")
             if encoding:
                 preprocessed_df = encoding_categorical(preprocessed_df)
