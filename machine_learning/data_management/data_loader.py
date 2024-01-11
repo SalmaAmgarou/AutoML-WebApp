@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+
 def load_data():
 
     if 'uploaded_files' not in st.session_state:
@@ -34,6 +35,7 @@ def load_data():
         if not dataframes:
             st.warning("No valid data found in the uploaded files.")
             return None  # Return None if no valid data is found
+
         st.write("")
         st.write("")
         st.subheader("① Edit and select cells")
@@ -42,18 +44,7 @@ def load_data():
 
         selected_df = pd.concat(dataframes)
 
-        # Checkbox to enable column deletion
-        delete_columns = st.checkbox("Enable Column Deletion")
-
-        if delete_columns:
-            # Multi-select box for choosing columns to delete
-            columns_to_delete = st.multiselect("Select columns to delete", selected_df.columns.tolist())
-
-            # Remove selected columns from the DataFrame
-            selected_df = selected_df.drop(columns=columns_to_delete, errors='ignore')
-
-
-        # Data editor for the remaining DataFrame
+        # No option for column deletion in this version
         edited_df = st.data_editor(selected_df, num_rows="dynamic")
 
         return edited_df

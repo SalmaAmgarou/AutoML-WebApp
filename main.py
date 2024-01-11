@@ -3,6 +3,7 @@ from user_interface.window_main import display_data_information, display_missing
 from machine_learning.data_management.data_loader import load_data
 from machine_learning.data_management.data_modeling import select_model_and_train
 from machine_learning.data_management.data_preprocessing import (
+    delete_columns,
     handle_missing_values_numeric,
     handle_outliers,
     handle_missing_values_categorical,
@@ -83,6 +84,9 @@ def main():
             st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
             st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
             st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
+            delete_columns_checkbox = st.checkbox("Enable Column Deletion")
+            if delete_columns_checkbox:
+                preprocessed_df = delete_columns(preprocessed_df)
             missing_values_numeric = st.sidebar.checkbox("Handle Missing Values (Numeric)")
             if missing_values_numeric:
                 preprocessed_df = handle_missing_values_numeric(preprocessed_df)

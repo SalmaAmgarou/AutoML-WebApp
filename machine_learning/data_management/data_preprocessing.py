@@ -2,6 +2,20 @@ import streamlit as st
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import numpy as np
+
+
+def delete_columns(dataframe):
+    with st.form(key='delete_columns_form'):
+        columns_to_delete = st.multiselect("Select columns to delete", dataframe.columns.tolist())
+        enable_deletion = st.form_submit_button("Delete")
+
+        if enable_deletion:
+            # Remove selected columns from the DataFrame
+            dataframe = dataframe.drop(columns=columns_to_delete, errors='ignore')
+
+    return dataframe
+
+
 def handle_missing_values_numeric(df):
     with st.sidebar.form(key='missing_values_numeric_form'):
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
