@@ -62,8 +62,12 @@ def select_model_and_train(df, task):
         st.header('Select Clustering Model')
         model_option = "K-Means"
         metrics = ["inertia"]
+        model = KMeans()
+        # Allow user to input the number of clusters
+        num_clusters = st.slider('Select the number of clusters (k) for K-Means:', min_value=1, max_value=10, value=3)
+        st.write('Number of clusters (k):', num_clusters)
+        model.set_params(n_clusters=num_clusters)
 
-    model = None
     metrics_result = None
 
     if model_option == "Linear Regression":
@@ -81,8 +85,7 @@ def select_model_and_train(df, task):
         elif task == "Classification":
             model = SVC()
     elif model_option == "K-Means":
-        if task == "Clustering":
-            model = KMeans()
+        pass  # We already set up the K-Means model above
     elif model_option == "K-Nearest Neighbors":
         if task == "Regression":
             model = KNeighborsRegressor()
