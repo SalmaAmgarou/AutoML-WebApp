@@ -1,6 +1,6 @@
 import streamlit as st
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, confusion_matrix
+from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, confusion_matrix, classification_report
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -40,6 +40,11 @@ def plot_confusion_matrix(y_test, y_pred):
     cm = confusion_matrix(y_test, y_pred)
     st.subheader('Confusion Matrix')
     st.write(cm)
+
+def plot_classification_report(y_test, y_pred):
+    report = classification_report(y_test, y_pred)
+    st.subheader('Classification Report')
+    st.text(report)
 
 def plot_roc_curve(y_true, y_probas):
     st.subheader('ROC Curve')
@@ -155,10 +160,15 @@ def select_model_and_train(df, task):
                 accuracy = accuracy_score(y_test, y_pred)
                 metrics_result = {"Accuracy": accuracy}
                 plot_confusion_matrix(y_test, y_pred)
+                plot_classification_report(y_test, y_pred)
                 plot_roc_curve(y_test, model.predict_proba(X_test))
+            elif task == "Clustering":
+                if model_option == "K-Means":
+                    inertia = model.inertia_
+                    metrics_result = {"Inertia": inertia}
 
-            st.success(f"Model trained successfully! Metrics: {metrics_result}")
             plot_metrics(metrics_result)
+            st.success("Model trained successfully!")
         except Exception as e:
             st.error(f"An error occurred during training: {str(e)}")
     else:
