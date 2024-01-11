@@ -1,6 +1,7 @@
 import streamlit as st
 from user_interface.window_main import display_data_information, display_missing_values, display_descriptive_statistics
 from machine_learning.data_management.data_loader import load_data
+from machine_learning.data_management.data_modeling import select_model_and_train
 from machine_learning.data_management.data_preprocessing import (
     handle_missing_values_numeric,
     handle_outliers,
@@ -113,7 +114,7 @@ def main():
     with tab2:
         visualize_data(st.session_state.preprocessed_df)
     with tab3:
-        True
+        select_model_and_train(st.session_state.preprocessed_df)
 
 if __name__ == "__main__":
     main()

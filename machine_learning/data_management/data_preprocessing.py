@@ -2,25 +2,6 @@ import streamlit as st
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import numpy as np
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-def select_target(dataframe):
-    if dataframe is None:
-        return None
-
-    if 'selected_target' not in st.session_state:
-        st.session_state.selected_target = None
-
-    st.sidebar.header('Select column to predict')
-    target = tuple(dataframe.columns)
-    selected_target = st.sidebar.selectbox('Select target for prediction', target)
-
-    confirm_button = st.sidebar.button("Confirm Target")
-
-    if confirm_button:
-        st.sidebar.write('Selected target:', selected_target)
-        st.session_state.selected_target = selected_target
-
-
 def handle_missing_values_numeric(df):
     with st.sidebar.form(key='missing_values_numeric_form'):
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
