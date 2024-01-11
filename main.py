@@ -12,6 +12,7 @@ from machine_learning.data_management.data_preprocessing import (
 import time
 from machine_learning.data_management.Visualization import visualize_data
 
+
 def main():
     st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
     col1, col2 = st.columns([1, 1])  # Two columns of equal width
@@ -62,6 +63,8 @@ def main():
         st.session_state.original_df = None
     if 'preprocessed_df' not in st.session_state:
         st.session_state.preprocessed_df = None
+    if 'model' not in st.session_state:
+        st.session_state.model = None  # Initialize model attribute
 
     with tab1:
         with st.status("Downloading data..."):

@@ -1,6 +1,6 @@
 import streamlit as st
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, confusion_matrix
 from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -10,6 +10,8 @@ from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 import numpy as np
+import scikitplot as skplt
+import matplotlib.pyplot as plt
 
 def select_target(dataframe):
     if dataframe is not None:
@@ -28,6 +30,24 @@ def split_data(dataframe):
         test_ratio = (100 - traintest) / 100
         st.write('test ratio:', test_ratio)
         return train_ratio
+
+def plot_metrics(metrics_result):
+    if metrics_result:
+        st.subheader('Metrics')
+        st.write(metrics_result)
+
+def plot_confusion_matrix(y_test, y_pred):
+    cm = confusion_matrix(y_test, y_pred)
+    st.subheader('Confusion Matrix')
+    st.write(cm)
+
+def plot_roc_curve(y_true, y_probas):
+    st.subheader('ROC Curve')
+    fig, ax = plt.subplots()
+    skplt.metrics.plot_roc_curve(y_true, y_probas, ax=ax)
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    st.pyplot(fig)
 
 def select_model_and_train(df, task):
     st.markdown('<p class="titles">Data Modeling</p>', unsafe_allow_html=True)
@@ -132,14 +152,13 @@ def select_model_and_train(df, task):
                 rmse = np.sqrt(mean_squared_error(y_test, y_pred))
                 metrics_result = {"MAE": mae, "RMSE": rmse}
             elif task == "Classification":
-                accuracy = (y_test == y_pred).mean()
+                accuracy = accuracy_score(y_test, y_pred)
                 metrics_result = {"Accuracy": accuracy}
-            elif task == "Clustering":
-                if model_option == "K-Means":
-                    inertia = model.inertia_
-                    metrics_result = {"Inertia": inertia}
+                plot_confusion_matrix(y_test, y_pred)
+                plot_roc_curve(y_test, model.predict_proba(X_test))
 
             st.success(f"Model trained successfully! Metrics: {metrics_result}")
+            plot_metrics(metrics_result)
         except Exception as e:
             st.error(f"An error occurred during training: {str(e)}")
     else:
