@@ -114,7 +114,15 @@ def main():
     with tab2:
         visualize_data(st.session_state.preprocessed_df)
     with tab3:
-        select_model_and_train(st.session_state.preprocessed_df)
+        st.markdown('<p class="titles">Data Modeling</p>', unsafe_allow_html=True)
+        st.header("")
+
+        if st.session_state.preprocessed_df is None:
+            st.warning("Please upload and preprocess data first.")
+        else:
+            task = st.radio("Select Task", ["Classification", "Regression", "Clustering"])
+            select_model_and_train(st.session_state.preprocessed_df, task)
+
 
 if __name__ == "__main__":
     main()

@@ -52,6 +52,7 @@ def load_data():
             # Remove selected columns from the DataFrame
             selected_df = selected_df.drop(columns=columns_to_delete, errors='ignore')
 
+
         # Data editor for the remaining DataFrame
         edited_df = st.data_editor(selected_df, num_rows="dynamic")
 
