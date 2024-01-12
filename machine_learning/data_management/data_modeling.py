@@ -50,6 +50,7 @@ def plot_metrics(metrics_result):
 def plot_decision_tree(model):
     plt.figure()
     plot_tree(model, filled=True)
+    plt.title('Decision Tree Visualization', color='red')
     st.pyplot(plt)
 
 def plot_confusion_matrix(y_test, y_pred):
@@ -59,6 +60,7 @@ def plot_confusion_matrix(y_test, y_pred):
     display.plot(cmap='Blues', ax=plt.gca())
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
+    plt.title('Confusion Matrix Classification Data', color='red')
     st.pyplot(plt)
 
 def plot_regression_results(y_true, y_pred, residuals):
@@ -86,7 +88,7 @@ def plot_regression_results(y_true, y_pred, residuals):
     residuals_non_negative = np.abs(residuals)
 
     axes[1, 1].errorbar(x=y_true, y=y_pred, yerr=residuals_non_negative, fmt='o', markersize=0, color='red', alpha=0.5)
-    axes[1, 1].set_title('Actual vs Predicted with Error Bars')
+    axes[1, 1].set_title('Actual vs Predicted with Error Bars', color='red')
 
     plt.tight_layout()
     st.pyplot(fig)
