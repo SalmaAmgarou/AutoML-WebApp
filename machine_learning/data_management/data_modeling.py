@@ -1,11 +1,13 @@
+import os
+
 import streamlit as st
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, confusion_matrix, classification_report
 from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, plot_tree
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVR, SVC
-from sklearn.cluster import KMeans
+import joblib
 from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.neural_network import MLPRegressor, MLPClassifier
@@ -44,6 +46,11 @@ def plot_metrics(metrics_result):
     if metrics_result:
         st.subheader('Metrics')
         st.write(metrics_result)
+
+def plot_decision_tree(model):
+    plt.figure()
+    plot_tree(model, filled=True)
+    st.pyplot(plt)
 
 def plot_confusion_matrix(y_test, y_pred):
     cm = confusion_matrix(y_test, y_pred)
@@ -136,7 +143,7 @@ def select_model_and_train(df, task):
         model_option = st.selectbox("Select Model", ["Linear Regression", "Decision Trees", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["MAE", "MSE", "RMSE", "R2 Square", "Cross Validation RMSE"]
     elif task == "Clustering":
-        st.header('Select Clustering Model')
+        st.header('K-Means Clustering')
         model_option = "K-Means"
         metrics = ["inertia"]
         model = KMeans()
@@ -239,23 +246,47 @@ def select_model_and_train(df, task):
 
                 metrics_result = {"MAE": mae, "MSE": mse, "RMSE": rmse, "R2 Square": r2_square, "Cross Validation RMSE": cv_rmse}
 
+                st.subheader('Regression Metrics')
+
                 plot_metrics(metrics_result)
+                if isinstance(model, DecisionTreeRegressor):
+                    st.subheader('Decision Tree Visualization')
+                    plot_decision_tree(model)
+                st.subheader('Regression Results')
                 plot_regression_results(y_test, y_pred, y_test - y_pred)
-                st.success("Model trained successfully!")
+                save_model_directory = r"machine_learning/Pre-trainedModel"
+
+                # Save the trained model to a file in the specified directory
+                model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
+                joblib.dump(model, model_filename)
+                st.success(f"Model trained successfully! Model saved as {model_filename}")
+
+
+
 
 
             elif task == "Classification":
                 accuracy = accuracy_score(y_test, y_pred)
                 metrics_result = {"Accuracy": accuracy}
                 st.divider()
+                st.subheader('Model Metrics')
                 st.success(f"Model trained successfully! {metrics_result}")
                 st.divider()
                 plot_confusion_matrix(y_test, y_pred)
                 st.divider()
                 plot_classification_report(model, X_test, y_test, classes=np.unique(y_test))
                 st.divider()
+                if isinstance(model, DecisionTreeClassifier):
+                    st.subheader('Decision Tree Visualization')
+                    plot_decision_tree(model)
+                    st.divider()
                 plot_roc_curve(y_test, model.predict_proba(X_test))
+                save_model_directory = r"machine_learning/Pre-trainedModel"
 
+                # Save the trained model to a file in the specified directory
+                model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
+                joblib.dump(model, model_filename)
+                st.success(f"Model saved as {model_filename} ! ")
 
             elif task == "Clustering":
                 if model_option == "K-Means":
@@ -264,19 +295,26 @@ def select_model_and_train(df, task):
                     inertia = model.inertia_
                     metrics_result = {"Inertia": inertia}
 
-
+                    st.subheader('Clustering Metrics')
+                    st.text(f"Inertia: {inertia}")
                     silhouette_avg = silhouette_score(X, labels)
                     st.success(f'Silhouette Score: {silhouette_avg}')
 
                     # Davies-Bouldin Index
                     davies_bouldin_idx = davies_bouldin_score(X, labels)
                     st.success(f'Davies-Bouldin Index: {davies_bouldin_idx}')
+                    st.subheader('Cluster Visualization')
                     # You can also display a plot of the clusters if you like
                     plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=labels, cmap='viridis')
                     plt.xlabel('Feature 1')
                     plt.ylabel('Feature 2')
                     st.pyplot(plt)
-                    st.success("Model trained successfully!")
+                    save_model_directory = r"machine_learning/Pre-trainedModel"
+
+                    # Save the trained model to a file in the specified directory
+                    model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
+                    joblib.dump(model, model_filename)
+                    st.success(f"Model trained successfully! Model saved as {model_filename}")
 
 
         except Exception as e:

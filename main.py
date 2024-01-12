@@ -15,7 +15,8 @@ from machine_learning.data_management.Visualization import visualize_data
 
 
 def main():
-    st.set_page_config(page_title="Machine Learning in Action", page_icon="💾")
+    st.set_page_config(page_title="Machine Learning in Action", page_icon="💾", menu_items={
+        'About': "### Welcome to our Machine Learning in Action. \n *Version 1.0* - Created with passion by HAMZA HAFDAOUI [Hamza Hafdaoui on GitHub](https://github.com/HAMZAUEST) and SALMA AMGAROU.   [Salma Amgarou on GitHub](https://github.com/SalmaAmgarou) \n What is this? \n **Explore the fascinating world of machine learning through our Streamlit app! We've curated an interactive experience that allows you to witness machine learning algorithms in action."})
     col1, col2 = st.columns([1, 1])  # Two columns of equal width
     st.markdown("""
     <style>
