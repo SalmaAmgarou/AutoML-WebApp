@@ -16,6 +16,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import seaborn as sns
 from sklearn.cluster import KMeans
 from yellowbrick.cluster import KElbowVisualizer
+from sklearn.metrics import ConfusionMatrixDisplay
+from yellowbrick.classifier import ClassificationReport
+from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 
 
@@ -45,7 +48,11 @@ def plot_metrics(metrics_result):
 def plot_confusion_matrix(y_test, y_pred):
     cm = confusion_matrix(y_test, y_pred)
     st.subheader('Confusion Matrix')
-    st.write(cm)
+    display = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(y_test))
+    display.plot(cmap='Blues', ax=plt.gca())
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    st.pyplot(plt)
 
 def plot_regression_results(y_true, y_pred, residuals):
     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 10))
@@ -76,10 +83,19 @@ def plot_regression_results(y_true, y_pred, residuals):
 
     plt.tight_layout()
     st.pyplot(fig)
-def plot_classification_report(y_test, y_pred):
-    report = classification_report(y_test, y_pred)
+def plot_classification_report(model, X_test, y_test, classes):
+    report = classification_report(y_test, model.predict(X_test), output_dict=True)
     st.subheader('Classification Report')
-    st.text(report)
+    st.text(classification_report(y_test, model.predict(X_test)))
+
+    # Instantiate the classification report visualizer
+    visualizer = ClassificationReport(model, classes=classes, support=True)
+
+    # Fit the visualizer and show the report
+    visualizer.score(X_test, y_test)
+    visualizer.show()
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.pyplot()
 
 def plot_roc_curve(y_true, y_probas):
     st.subheader('ROC Curve')
@@ -225,14 +241,21 @@ def select_model_and_train(df, task):
 
                 plot_metrics(metrics_result)
                 plot_regression_results(y_test, y_pred, y_test - y_pred)
+                st.success("Model trained successfully!")
 
 
             elif task == "Classification":
                 accuracy = accuracy_score(y_test, y_pred)
                 metrics_result = {"Accuracy": accuracy}
+                st.divider()
+                st.success(f"Model trained successfully! {metrics_result}")
+                st.divider()
                 plot_confusion_matrix(y_test, y_pred)
-                plot_classification_report(y_test, y_pred)
+                st.divider()
+                plot_classification_report(model, X_test, y_test, classes=np.unique(y_test))
+                st.divider()
                 plot_roc_curve(y_test, model.predict_proba(X_test))
+
 
             elif task == "Clustering":
                 if model_option == "K-Means":
@@ -240,14 +263,22 @@ def select_model_and_train(df, task):
                     labels = model.predict(X)
                     inertia = model.inertia_
                     metrics_result = {"Inertia": inertia}
-                    st.write(metrics_result)
+
+
+                    silhouette_avg = silhouette_score(X, labels)
+                    st.success(f'Silhouette Score: {silhouette_avg}')
+
+                    # Davies-Bouldin Index
+                    davies_bouldin_idx = davies_bouldin_score(X, labels)
+                    st.success(f'Davies-Bouldin Index: {davies_bouldin_idx}')
                     # You can also display a plot of the clusters if you like
                     plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=labels, cmap='viridis')
                     plt.xlabel('Feature 1')
                     plt.ylabel('Feature 2')
                     st.pyplot(plt)
+                    st.success("Model trained successfully!")
 
-            st.success("Model trained successfully!")
+
         except Exception as e:
             st.error(f"An error occurred during training: {str(e)}")
     else:
