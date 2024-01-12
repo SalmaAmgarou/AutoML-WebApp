@@ -5,6 +5,19 @@ import numpy as np
 
 
 def delete_columns(dataframe):
+    '''
+    Delete selected columns from the DataFrame.
+
+    Args:
+        dataframe (pd.DataFrame): Input DataFrame.
+
+    Returns:
+        pd.DataFrame: DataFrame after deleting selected columns.
+
+    Purpose: Delete selected columns from the DataFrame.
+    Role: Utilizes Streamlit forms for user input and removes selected columns.
+    Usage in the Application: Used in the "Upload Data" tab for data preprocessing.
+    '''
     with st.form(key='delete_columns_form'):
         columns_to_delete = st.multiselect("Select columns to delete", dataframe.columns.tolist())
         enable_deletion = st.form_submit_button("Delete")
@@ -17,6 +30,19 @@ def delete_columns(dataframe):
 
 
 def handle_missing_values_numeric(df):
+    '''
+    Handle missing values in numeric columns using selected techniques.
+
+    Args:
+        df (pd.DataFrame): Input DataFrame.
+
+    Returns:
+        pd.DataFrame: DataFrame after handling missing values.
+
+    Purpose: Handle missing values in numeric columns using selected techniques.
+    Role: Provides options for imputation or deletion of missing values in numeric columns.
+    Usage in the Application: Used in the "Visualize Data" and "Data Modeling" tabs for data preprocessing.
+    '''
     with st.sidebar.form(key='missing_values_numeric_form'):
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
         missing_values_option = st.radio("Technique", ["None", "Imputation", "Deletion"])
@@ -32,6 +58,19 @@ def handle_missing_values_numeric(df):
     return df
 
 def handle_missing_values_categorical(df):
+    '''
+    Handle missing values in categorical columns using selected techniques.
+
+    Args:
+        df (pd.DataFrame): Input DataFrame.
+
+    Returns:
+        pd.DataFrame: DataFrame after handling missing values.
+
+    Purpose: Handle missing values in categorical columns using selected techniques.
+    Role: Offers choices for imputing with the most frequent value or creating a new category.
+    Usage in the Application: Employed in the "Visualize Data" and "Data Modeling" tabs for data preprocessing.
+    '''
     with st.sidebar.form(key='missing_values_categorical_form'):
         categorical_cols = df.select_dtypes(exclude=np.number).columns.tolist()
         missing_values_option_cat = st.radio("Technique", ["None", "Most Frequent", "New Category"])
@@ -47,6 +86,20 @@ def handle_missing_values_categorical(df):
     return df
 
 def handle_outliers(df, threshold):
+    '''
+    Handle outliers in numeric columns using selected techniques.
+
+    Args:
+        df (pd.DataFrame): Input DataFrame.
+        threshold (float): Z-score threshold for outlier detection.
+
+    Returns:
+        pd.DataFrame: DataFrame after handling outliers.
+
+Purpose: Handle outliers in numeric columns using selected techniques.
+Role: Options for handling outliers include Z-score-based removal or IQR-based removal.
+Usage in the Application: Used in the "Visualize Data" and "Data Modeling" tabs for data preprocessing
+    '''
     with st.sidebar.form(key='outliers_form'):
         numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
         outlier_method = st.radio("Outlier Handling Method", ["Z-score", "IQR"])  # Add radio button for outlier method
@@ -68,6 +121,19 @@ def handle_outliers(df, threshold):
         return df
 
 def encoding_categorical(dataframe):
+    '''
+    Encode categorical columns using selected techniques.
+
+    Args:
+        dataframe (pd.DataFrame): Input DataFrame.
+
+    Returns:
+        pd.DataFrame: DataFrame after encoding categorical columns.
+
+    Purpose: Encode categorical columns using selected techniques.
+    Role: Provides options for label encoding or one-hot encoding based on user choices.
+    Usage in the Application: Employed in the "Visualize Data" and "Data Modeling" tabs for data preprocessing.
+    '''
     with st.sidebar.form(key='encoding_form'):
         all_categorical_cols = dataframe.select_dtypes(include='object').columns.tolist()
         cols_to_exclude = st.multiselect("Select columns to exclude from encoding", all_categorical_cols)
@@ -87,6 +153,19 @@ def encoding_categorical(dataframe):
 
 
 def scaler(dataframe):
+    '''
+    Scale numerical columns using selected techniques.
+
+    Args:
+        dataframe (pd.DataFrame): Input DataFrame.
+
+    Returns:
+        pd.DataFrame: DataFrame after scaling numerical columns.
+
+    Purpose: Scale numerical columns using selected techniques.
+    Role: Options include normalization, standardization, or Min-Max scaling.
+    Usage in the Application: Used in the "Visualize Data" and "Data Modeling" tabs for data preprocessing.
+    '''
     with st.sidebar.form(key='scaling_form'):
         feature_scaling_option = st.radio("Technique", ["None", "Normalization", "Standardization", "MinMaxScaler"])
         submit_scaling = st.form_submit_button("Apply Scaling")
