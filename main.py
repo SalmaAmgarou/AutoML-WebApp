@@ -106,7 +106,7 @@ def main():
                 missing_values_categorical = st.sidebar.checkbox("Handle Missing Values (Categorical)")
                 if missing_values_categorical:
                     preprocessed_df = handle_missing_values_categorical(preprocessed_df)
-                handle_out = st.sidebar.checkbox("Handle Outliers (Z-score)")
+                handle_out = st.sidebar.checkbox("Handle Outliers")
                 if handle_out:
                     preprocessed_df = handle_outliers(preprocessed_df, threshold=3.0)
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
@@ -134,6 +134,7 @@ def main():
         with tab2:
             visualize_data(st.session_state.preprocessed_df)
         with tab3:
+            st.header("")
             st.markdown('<p class="titles">Data Modeling</p>', unsafe_allow_html=True)
             st.header("")
 

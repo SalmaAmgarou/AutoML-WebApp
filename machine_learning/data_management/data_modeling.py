@@ -26,7 +26,8 @@ from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 def select_target(dataframe):
     if dataframe is not None:
-        st.header('Select column to predict')
+        st.header("")
+        st.markdown('<p class="dot-matrix">Select column to predict</p>', unsafe_allow_html=True)
         target = tuple(dataframe.columns)
         selected_target = st.selectbox('Select target for prediction', target)
         st.write('selected target:', selected_target)
@@ -34,7 +35,8 @@ def select_target(dataframe):
 
 def split_data(dataframe):
     if dataframe is not None:
-        st.header('Select train : test ratio')
+        st.header("")
+        st.markdown('<p class="dot-matrix">Select train : test ratio</p>', unsafe_allow_html=True)
         traintest = st.slider('train:test:', min_value=0, max_value=100, step=5, value=80)
         train_ratio = traintest / 100
         st.write('train ratio:', train_ratio)
@@ -116,9 +118,6 @@ def plot_roc_curve(y_true, y_probas):
 
 
 def select_model_and_train(df, task):
-    st.markdown('<p class="titles">Data Modeling</p>', unsafe_allow_html=True)
-    st.header("")
-
     if df is None:
         st.warning("Please upload and preprocess data first.")
         return
@@ -137,7 +136,8 @@ def select_model_and_train(df, task):
     metrics = None
 
     if task == "Classification":
-        st.header('Select Classification Model')
+        st.header("")
+        st.markdown('<p class="dot-matrix">Select Classification Model</p>', unsafe_allow_html=True)
         model_option = st.selectbox("Select Model", ["Decision Trees", "Naive Bayes", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["accuracy"]
     elif task == "Regression":
@@ -189,7 +189,7 @@ def select_model_and_train(df, task):
         if task == "Regression":
             model = SVR()
         elif task == "Classification":
-            model = SVC()
+            model = SVC(probability=True)
     elif model_option == "K-Means":
         pass  # We already set up the K-Means model above
     elif model_option == "K-Nearest Neighbors":
