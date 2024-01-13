@@ -23,7 +23,7 @@ from yellowbrick.classifier import ClassificationReport
 from sklearn.metrics import silhouette_score, davies_bouldin_score
 
 
-
+# Function to select the target column for prediction
 def select_target(dataframe):
     if dataframe is not None:
         st.header("")
@@ -33,6 +33,7 @@ def select_target(dataframe):
         st.write('selected target:', selected_target)
         return selected_target
 
+# Function to split data into training and testing sets
 def split_data(dataframe):
     if dataframe is not None:
         st.header("")
@@ -65,6 +66,8 @@ def plot_confusion_matrix(y_test, y_pred):
     plt.title('Confusion Matrix Classification Data', color='red')
     st.pyplot(plt)
 
+
+# Function to plot regression results
 def plot_regression_results(y_true, y_pred, residuals):
     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 10))
 
@@ -94,6 +97,9 @@ def plot_regression_results(y_true, y_pred, residuals):
 
     plt.tight_layout()
     st.pyplot(fig)
+
+
+# Function to plot classification report
 def plot_classification_report(model, X_test, y_test, classes):
     report = classification_report(y_test, model.predict(X_test), output_dict=True)
     st.subheader('Classification Report')
@@ -108,6 +114,8 @@ def plot_classification_report(model, X_test, y_test, classes):
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
 
+
+# Function to plot ROC curve
 def plot_roc_curve(y_true, y_probas):
     st.subheader('ROC Curve')
     fig, ax = plt.subplots()
@@ -117,34 +125,47 @@ def plot_roc_curve(y_true, y_probas):
     st.pyplot(fig)
 
 
+# Function to select machine learning model and train it
 def select_model_and_train(df, task):
+    # Check if the dataframe is None
     if df is None:
+        # Display a warning message if the dataframe is None
         st.warning("Please upload and preprocess data first.")
         return
 
+    # Select the target column for prediction
     selected_target = select_target(df)
+    # Split the data into training and testing sets
     train_ratio = split_data(df)
 
+    # Separate features (X) and target variable (y)
     X = df.drop(columns=[selected_target])
     y = df[selected_target]
 
+    # Convert train_ratio to float
     train_ratio = float(train_ratio)
 
+    # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1 - train_ratio, random_state=42)
 
+    # Initialize variables for model selection and metrics
     model_option = None
     metrics = None
 
+
+    # Check the task type (Classification, Regression, or Clustering)
     if task == "Classification":
         st.header("")
         st.markdown('<p class="dot-matrix">Select Classification Model</p>', unsafe_allow_html=True)
         model_option = st.selectbox("Select Model", ["Decision Trees", "Naive Bayes", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["accuracy"]
     elif task == "Regression":
+        # User interface for selecting Regression model
         st.header('Select Regression Model')
         model_option = st.selectbox("Select Model", ["Linear Regression", "Decision Trees", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["MAE", "MSE", "RMSE", "R2 Square", "Cross Validation RMSE"]
     elif task == "Clustering":
+        # User interface for selecting Classification model
         st.header('K-Means Clustering')
         model_option = "K-Means"
         metrics = ["inertia"]
@@ -176,6 +197,7 @@ def select_model_and_train(df, task):
 
     metrics_result = None
 
+    # Select the appropriate model based on user choice
     if model_option == "Linear Regression":
         model = LinearRegression()
     elif model_option == "Decision Trees":
@@ -199,6 +221,7 @@ def select_model_and_train(df, task):
             model = KNeighborsClassifier()
     elif model_option == "Random Forest":
         if task == "Regression":
+            # Define parameter grid for Random Forest Regression
             param_grid = {
                 'n_estimators': [10, 50, 100],
                 'max_depth': [None, 10, 20],
@@ -206,11 +229,13 @@ def select_model_and_train(df, task):
                 'min_samples_leaf': [1, 2, 4]
             }
             model = RandomForestRegressor()
+            # Perform grid search for hyperparameter tuning
             grid_search = GridSearchCV(estimator=model, param_grid=param_grid, scoring='neg_mean_squared_error', cv=5)
             grid_search.fit(X_train, y_train)
             model = grid_search.best_estimator_
             st.write("Best parameters:", grid_search.best_params_)
         elif task == "Classification":
+            # Define parameter grid for Random Forest Classification
             param_grid = {
                 'n_estimators': [10, 50, 100],
                 'max_depth': [None, 10, 20],
@@ -228,12 +253,15 @@ def select_model_and_train(df, task):
         elif task == "Classification":
             model = MLPClassifier(max_iter=500)
 
+    # Check if the model is defined
     if model:
         try:
+            # Train the selected model
             model.fit(X_train, y_train)
             y_pred = model.predict(X_test)
 
             if task == "Regression":
+                # Metrics for Regression task
                 print("Sizes - x_train:", len(X_train), "y_train:", len(y_train))
                 # Add this line for debugging
 
@@ -251,6 +279,8 @@ def select_model_and_train(df, task):
                 st.subheader('Regression Metrics')
 
                 plot_metrics(metrics_result)
+
+                # Plot Decision Tree if the model is DecisionTreeRegressor
                 if isinstance(model, DecisionTreeRegressor):
                     st.subheader('Decision Tree Visualization')
                     plot_decision_tree(model)
@@ -268,21 +298,28 @@ def select_model_and_train(df, task):
 
 
             elif task == "Classification":
+                # Metrics for Classification task
                 accuracy = accuracy_score(y_test, y_pred)
                 metrics_result = {"Accuracy": accuracy}
+                # Display Classification metrics
                 st.divider()
                 st.subheader('Model Metrics')
                 st.success(f"Model trained successfully! {metrics_result}")
                 st.divider()
+                # Display confusion matrix
                 plot_confusion_matrix(y_test, y_pred)
                 st.divider()
+                # Display classification report
                 plot_classification_report(model, X_test, y_test, classes=np.unique(y_test))
                 st.divider()
                 if isinstance(model, DecisionTreeClassifier):
                     st.subheader('Decision Tree Visualization')
                     plot_decision_tree(model)
                     st.divider()
+                # Display ROC curve
                 plot_roc_curve(y_test, model.predict_proba(X_test))
+
+                # Save the trained model to a file
                 save_model_directory = r"machine_learning/Pre-trainedModel"
 
                 # Save the trained model to a file in the specified directory
@@ -291,14 +328,18 @@ def select_model_and_train(df, task):
                 st.success(f"Model saved as {model_filename} ! ")
 
             elif task == "Clustering":
+                # Metrics for Clustering task (K-Means)
                 if model_option == "K-Means":
                     model.fit(X)
                     labels = model.predict(X)
                     inertia = model.inertia_
                     metrics_result = {"Inertia": inertia}
 
+                    # Display clustering metrics
                     st.subheader('Clustering Metrics')
                     st.text(f"Inertia: {inertia}")
+
+                    # Silhouette Score
                     silhouette_avg = silhouette_score(X, labels)
                     st.success(f'Silhouette Score: {silhouette_avg}')
 
@@ -322,4 +363,5 @@ def select_model_and_train(df, task):
         except Exception as e:
             st.error(f"An error occurred during training: {str(e)}")
     else:
+        # Display a warning if the model is not selected
         st.warning("Please select a valid machine learning model.")

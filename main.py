@@ -144,7 +144,69 @@ def main():
                 task = st.radio("Select Task", ["Classification", "Regression", "Clustering"])
                 select_model_and_train(st.session_state.preprocessed_df, task)
     elif selected == ' ':
-        st.header("docs")
+        st.title("Documentation and Tutorials")
+
+        st.header("Code Comments and Docstrings")
+        st.markdown("""
+        - Ensure that the code is well-commented. Use comments to explain complex or non-trivial sections of the code.
+        - Utilize docstrings for functions and classes, providing information on parameters, return values, and the purpose of the function or class.
+        """)
+
+        st.header("Separate Documentation Section")
+        st.markdown("""
+        - Create a dedicated section for documentation and tutorials accessible through a navigation menu or a separate tab.
+        - Use Markdown for clear and organized documentation.
+        """)
+
+        st.header("Tutorials")
+        st.markdown("""
+        - Provide step-by-step tutorials for common tasks and workflows.
+        - Include a combination of text, code snippets, and visuals to guide users through the process.
+        """)
+
+        st.header("Algorithm Explanations")
+        st.markdown("""
+        - Include detailed explanations for each implemented algorithm.
+        - Describe the purpose, functionality, and relevant parameters of each algorithm.
+        - Provide references to external resources or papers for further reading.
+        """)
+
+        st.header("Interactive Examples")
+        st.markdown("""
+        - Use Streamlit's interactive features to create examples that users can manipulate in real-time.
+        - Enhance tutorials with interactive elements to improve user engagement.
+        """)
+
+        st.header("Sample Datasets")
+        st.markdown("""
+        - Include sample datasets that users can use to follow along with tutorials and test the application's functionalities.
+        - Provide information on the structure and content of sample datasets.
+        """)
+
+        st.header("User Feedback")
+        st.markdown("""
+        - Allow users to provide feedback on documentation and tutorials.
+        - Implement a feedback mechanism to gather user opinions and suggestions.
+        """)
+
+        st.header("Version Control")
+        st.markdown("""
+        - Ensure that documentation is updated with each version of the application.
+        - Users should be able to access documentation corresponding to the version they are using.
+        """)
+
+        st.header("Additional Resources")
+        st.markdown("""
+        - Provide links to external resources or documentation for related topics, such as machine learning concepts, Streamlit usage, or data science best practices.
+        """)
+
+        st.header("Community Support")
+        st.markdown("""
+        - Consider creating a community forum or space for users to ask questions, share tips, and discuss the application.
+        - Foster a sense of community and provide additional support through user interactions.
+        """)
+
+        st.success("Documentation and tutorials have been outlined. Customize them based on your application's specifics.")
 
 
 if __name__ == "__main__":

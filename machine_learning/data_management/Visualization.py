@@ -4,18 +4,22 @@ import seaborn as sns
 import plotly.express as px
 import time
 
+
+# Function to visualize data based on user-selected options
 def visualize_data(dataframe):
     st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
 
+    # Initialize selected options in session state if not present
     if 'selected_options' not in st.session_state:
         st.session_state.selected_options = []
 
+    # Multiselect for choosing visualization options
     graphs_and_plots = st.multiselect(
         "Select Visualization Options",
         ["Correlation Heatmap", "Scatter Plot", "Histogram", "Area Chart", "Bar Plot"]
     )
 
-
+    # Store selected options in session state
     st.session_state.selected_options = graphs_and_plots
 
     if "Bar Plot" in st.session_state.selected_options:
@@ -26,6 +30,7 @@ def visualize_data(dataframe):
         st.header("")
         st.markdown("----------------------------------------------")
 
+    # Conditional rendering of visualizations based on user selection
     if "Correlation Heatmap" in st.session_state.selected_options:
         show_progress_bar()
         st.header("")
@@ -58,6 +63,8 @@ def visualize_data(dataframe):
         st.header("")
         st.markdown("----------------------------------------------")
 
+
+# Function to show a progress bar while generating visualizations
 def show_progress_bar():
     progress_text = "Generating Visualization..."
     with st.spinner(progress_text):
@@ -68,6 +75,9 @@ def show_progress_bar():
         time.sleep(1)
         my_bar.empty()
 
+
+
+# Function to create a custom bar plot
 def plot_custom(dataframe):
     st.subheader(":orange[Bar Plot]")
     st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
@@ -87,6 +97,8 @@ def plot_custom(dataframe):
             data_frame=dataframe, x=selected_x, y=selected_y
         )
         st.plotly_chart(fig)
+
+# Function to create a correlation heatmap
 def create_correlation_heatmap(dataframe):
     st.markdown('<p class="titles">Correlation Heatmap</p>', unsafe_allow_html=True)
     st.header("")
@@ -107,6 +119,7 @@ def create_correlation_heatmap(dataframe):
             st.warning(f"Warning: {str(e)}. Preprocessing of data is recommended before generating the correlation heatmap.")
 
 
+# Function to create a scatter plot
 def scatter_plot(dataframe):
     st.markdown('<p class="titles">Scatter Plot</p>', unsafe_allow_html=True)
     st.header("")
@@ -127,6 +140,7 @@ def scatter_plot(dataframe):
     st.plotly_chart(fig2)
 
 
+# Function to create an area chart
 def create_area_chart(dataframe):
     st.markdown('<p class="titles">Area Chart</p>', unsafe_allow_html=True)
     st.header("")
@@ -143,7 +157,7 @@ def create_area_chart(dataframe):
         st.warning("Please select at least one Y-axis column")
 
 
-
+# Function to create a Seaborn histogram
 def seaborn_histogram(dataframe):
     st.markdown('<p class="titles">Seaborn Histogram</p>', unsafe_allow_html=True)
     st.header("")
