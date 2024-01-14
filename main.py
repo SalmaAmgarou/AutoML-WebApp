@@ -13,7 +13,7 @@ from machine_learning.data_management.data_preprocessing import (
 )
 import time
 from machine_learning.data_management.Visualization import visualize_data
-import os
+from Documentation import documentation
 import streamlit as st
 from streamlit_option_menu import option_menu as om
 
@@ -169,7 +169,8 @@ def main():
 
     # Documentation section
     elif selected == ' ':
-        st.header("docs")
+        documentation()
+
 
 
 # Run the main function if the script is executed directly
