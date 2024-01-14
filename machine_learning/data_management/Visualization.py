@@ -6,6 +6,7 @@ import time
 
 
 # Function to visualize data based on user-selected options
+
 def visualize_data(dataframe):
     st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
 
@@ -21,9 +22,9 @@ def visualize_data(dataframe):
 
     # Store selected options in session state
     st.session_state.selected_options = graphs_and_plots
+    show_progress_bar()
 
     if "Bar Plot" in st.session_state.selected_options:
-        show_progress_bar()
         st.header("")
         st.markdown("----------------------------------------------")
         plot_custom(dataframe)
@@ -32,7 +33,6 @@ def visualize_data(dataframe):
 
     # Conditional rendering of visualizations based on user selection
     if "Correlation Heatmap" in st.session_state.selected_options:
-        show_progress_bar()
         st.header("")
         st.markdown("----------------------------------------------")
         create_correlation_heatmap(dataframe)
@@ -40,7 +40,6 @@ def visualize_data(dataframe):
         st.markdown("----------------------------------------------")
 
     if "Scatter Plot" in st.session_state.selected_options:
-        show_progress_bar()
         st.header("")
         st.markdown("----------------------------------------------")
         scatter_plot(dataframe)
@@ -48,7 +47,6 @@ def visualize_data(dataframe):
         st.markdown("----------------------------------------------")
 
     if "Area Chart" in st.session_state.selected_options:
-        show_progress_bar()
         st.header("")
         st.markdown("----------------------------------------------")
         create_area_chart(dataframe)
@@ -56,7 +54,6 @@ def visualize_data(dataframe):
         st.markdown("----------------------------------------------")
 
     if "Histogram" in st.session_state.selected_options:
-        show_progress_bar()
         st.header("")
         st.markdown("----------------------------------------------")
         seaborn_histogram(dataframe)
@@ -72,7 +69,7 @@ def show_progress_bar():
         for percent_complete in range(100):
             time.sleep(0.01)
             my_bar.progress(percent_complete + 1)
-        time.sleep(1)
+        time.sleep(0.01)
         my_bar.empty()
 
 

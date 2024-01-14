@@ -89,6 +89,7 @@ def main():
                 time.sleep(0.8)
                 st.session_state.original_df = load_data()
 
+
             # Check if data is loaded successfully
             if st.session_state.original_df is not None:
                 st.success('Data Loaded Successfully!')
