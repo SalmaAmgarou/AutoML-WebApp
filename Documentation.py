@@ -134,46 +134,358 @@ def documentation():
 
         st.markdown('<p class="titles">Linear Regression</p>', unsafe_allow_html=True)
         st.write("""
-        Linear Regression is a fundamental algorithm for predicting a continuous target variable based on one or more independent features. It models the relationship between the dependent variable and the independent variables as a linear equation. The goal is to find the best-fitting line that minimizes the difference between predicted and actual values.
+        Linear regression predicts a Y value, given X features. Machine learning works to show the relationship between the two, then the relationships are placed on an X/Y axis, with a straight line running through them to predict future relationships.
+In sentiment analysis, linear regression calculates how the X input (meaning words and phrases) relates to the Y output (opinion polarity – positive, negative, neutral). This will determine where the text falls on the scale of “very positive” to “very negative” and between.
         """)
+        st.header("")
+        st.image('images/regression_lin.png', caption='Linear Regression', use_column_width=True)
+        st.header("")
+        st.caption("Example of Linear Regression in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+# Generate some random data
+np.random.seed(42)
+X = 2 * np.random.rand(100, 1)
+y = 4 + 3 * X + np.random.randn(100, 1)
+# Train a linear regression model model = LinearRegression() model.fit(x, y)
+# Make predictions
+X_new = np.array([[0], [2]])
+y_pred
+model.predict(X_new)
+# Visualize the data and the linear regression line plt.scatter(x, y, label='Data points')
+plt.plot(X_new, y_pred, 'r-',
+label='Linear Regression Line')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.legend()
+plt.title('Linear Regression Example')
+plt.show()'''
+        st.code(code, language='python')
+
+
+        st.markdown('<p class="titles">Logistique Regression</p>', unsafe_allow_html=True)
+        st.write("""
+        Logistic regression is an algorithm that predicts binary outcome, a positive or negative conclusion: Yes/No, Existence/Non-existence, Pass/Fail. It means, simply, something happens or does not.
+Variables are calculated against each other to determine the 0/1 outcome (one of two categories):
+P(Y=1|X) or P(Y=0|X)
+The independent variables can be categorical or numeric, but the dependent variable is always categorical: the probability of dependent variable Y, given independent variable X. 
+This can be used to determine the object in a photo or video image (cup, bowl, spoon, etc.) with each object given a probability between 0 and 1, or to calculate the probability of a word having a positive or negative connotation (0, 1, or on a scale between). """)
+        st.header("")
+        st.image('images/logistic-regression-in-machine-learning.png', caption='Logistique Regression', use_column_width=True)
+        st.header("")
+        st.caption("Example of Logistique Regression in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+
+# Generate some synthetic data for binary classification
+X, y = make_classification(n_samples=100, n_features=1, n_informative=1, n_redundant=0, random_state=42)
+
+# Train a logistic regression model
+model = LogisticRegression()
+model.fit(X, y)
+
+# Make predictions
+X_new = np.linspace(-3, 3, 300).reshape(-1, 1)
+y_proba = model.predict_proba(X_new)
+
+# Visualize the data and the logistic regression curve
+plt.scatter(X, y, label='Data points', marker='o')
+plt.plot(X_new, y_proba[:, 1], 'g-', label='Logistic Regression Curve (Class 1 Probability)')
+plt.plot(X_new, y_proba[:, 0], 'b--', label='Class 0 Probability')
+plt.xlabel('Feature (X)')
+plt.ylabel('Probability')
+plt.legend()
+plt.title('Logistic Regression Example')
+plt.show()'''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">Decision Trees</p>', unsafe_allow_html=True)
         st.write("""
-        Decision Trees are versatile models used for both classification and regression tasks. They recursively split the dataset based on feature conditions to create a tree-like structure. Decision Trees are interpretable and can capture complex relationships in the data.
+        Decision tree, also known as classification and regression tree (CART), is a supervised learning algorithm that works great on text classification problems because it can show similarities and differences on a hyper minute level. It, essentially, acts like a flow chart, breaking data points into two categories at a time, from “trunk,” to “branches,” then “leaves,” where the data within each category is at its most similar.
+
+This creates classifications within classifications, showing how the precise leaf categories are ultimately within a trunk and branch category.
         """)
+        st.header("")
+        st.image('images/Decision_tree.png', caption='Decision Tree', use_column_width=True)
+        st.header("")
+        st.caption("Example of Decision Tree in Practice")
+        code = '''# Import necessary libraries
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, export_text, export_graphviz
+from sklearn import tree
+import graphviz
+# Load a sample dataset (for example, the Iris dataset) iris datasets. load_iris()
+X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, random_state=42)
+# Create a Decision Tree model dt_model = DecisionTreeClassifier() dt_model.fit(X_train, y_train)
+# Visualize the Decision Tree as text
+tree_rules = export_text(dt_model, feature_names-iris.feature_names) 
+print("Decision Tree Rules: ", tree_rules)
+# Visualize the Decision Tree as a graph
+dot_data = tree.export_graphviz (dt_model, out_file=None,nfeature_names-iris.feature_names,
+class_names-iris.target_names,nfilled=True,nrounded=True,nspecial_characters=True)
+graph = graphviz.Source(dot_data)
+graph.render("iris_decision_tree") # This will save a file named "iris_decision_tree.pdf"
+# Display the Decision Tree graph (requires Graphviz) 
+graph.view("iris_decision_tree")'''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">Naive Bayes</p>', unsafe_allow_html=True)
         st.write("""
-        Naive Bayes is a probabilistic classification algorithm based on Bayes' theorem. It assumes that features are conditionally independent, simplifying the calculation of probabilities. Naive Bayes is particularly effective for text classification tasks.
+        When used in text analysis, Naive Bayes is a family of probabilistic algorithms that use Bayes’ Theorem to calculate the possibility of words or phrases falling into a set of predetermined “tags” (categories) or not. This can be used on news articles, customer reviews, emails, general documents, etc.
+
+They calculate the probability of each tag for a given text, then output for the highest probability:
         """)
+        st.image('images/relation_naive_bayes.png',use_column_width=True)
+        st.write("""
+        There can be multiple tags assigned to any given use case (problem), but they are each calculated individually. When tagging customer reviews, for example, we could use tags like Pricing, Usability, Features, etc., but each piece of text would be calculated against only one tag at a time:
+        """)
+        st.image('images/Naive_bapng.png', caption='Naive Bayes',use_column_width=True)
+        st.header("")
+        st.caption("Example of Naive Bayes in Practice")
+        code = '''# Import necessary libraries
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+
+# Load the Iris dataset
+iris = load_iris()
+X, y = iris.data, iris.target
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train a Naive Bayes model
+model = GaussianNB()
+model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = model.predict(X_test)
+
+# Calculate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+
+# Visualize the data (2D plot for simplicity)
+plt.scatter(X_test[:, 0], X_test[:, 1], c=y_test, cmap=plt.cm.Paired, edgecolor='k', s=100)
+plt.xlabel('Sepal Length (cm)')
+plt.ylabel('Sepal Width (cm)')
+plt.title(f'Naive Bayes Classification\nAccuracy: {accuracy:.2f}')
+plt.show()'''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">Support Vector Machine (SVM)</p>', unsafe_allow_html=True)
         st.write("""
         SVM is a powerful algorithm for both classification and regression tasks. It finds the hyperplane that best separates classes in the feature space. SVM can handle non-linear relationships through the use of kernel functions.
         """)
+        st.header('')
+        st.image('images/support-vector-machine-algorithm.png', caption='Support Vector Machine', use_column_width=True)
+        st.header("")
+        st.caption("Example of Support Vector Machine (SVM) in Practice")
+        code = '''from sklearn import svm import numpy as np
+import matplotlib.pyplot as plt
+# Create a simple linearly separable dataset
+X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]]) 
+y = np.array([1, 1, 1, 0, 0])
+# Create a linear SVM model 
+model = svm.SVC (kernel='linear')
+# Train the model 
+model.fit(x, y)
+# Plot the decision boundary
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Paired)
+ax = plt.gca() 
+xlim = ax.get_xlim() 
+ylim = ax.get_ylim()
+# Create grid to evaluate model
+xx, yy = np.meshgrid(np.linspace(xlim[0], xlim[1], 50), np.linspace(ylim[0], ylim[1], 50))
+Z = model.decision_function (np.c_[xx.ravel(), yy.ravel()])
+# Plot decision boundary and margins
+Z = Z.reshape(xx.shape)
+plt.contour(xx, yy, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
+plt.scatter(model.support_vectors_[:, 0], model.support_vectors_[:, 1], s=100, facecolors='none', edgecolors='k')
+plt.title('Linear SVM Example')
+plt.show()'''
+        st.code(code, language='python')
+
 
         st.markdown('<p class="titles">K-Means Clustering</p>', unsafe_allow_html=True)
         st.write("""
         K-Means is an unsupervised clustering algorithm that partitions data into k clusters. It minimizes the sum of squared distances between data points and their assigned cluster centroids. K-Means is widely used for data segmentation.
         """)
+        st.header('')
+        st.image('images/Kmeans.png', caption='K-Means Clustering', use_column_width=True)
+        st.header("")
+        st.caption("Example of Support Vector Machine (SVM) in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+# Create a custom dataset
+X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]])
+y = np.array([1, 1, 1, 0, 0])
+
+# Train a KMeans model
+model = KMeans(n_clusters=2, random_state=42)
+model.fit(X)
+
+# Get cluster labels
+labels = model.labels_
+
+# Visualize the data and clustering results
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis', edgecolors='k', s=50)
+plt.scatter(model.cluster_centers_[:, 0], model.cluster_centers_[:, 1], c='red', marker='X', s=200, label='Centroids')
+plt.title('KMeans Clustering Example')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.legend()
+plt.show()
+    '''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">K-Nearest Neighbors (KNN)</p>', unsafe_allow_html=True)
         st.write("""
-        KNN is a simple and effective algorithm for classification and regression tasks. It classifies a new data point based on the majority class or averages the values of its k-nearest neighbors in the feature space.
+        K-nearest neighbors or “k-NN” is a pattern recognition algorithm that uses training datasets to find the k closest related members in future examples. 
+
+Used in text analysis, we would calculate to place a given word or phrase within the category of its nearest neighbor. K is decided by a plurality vote of its neighbors.  If k = 1, then it would be placed in the class nearest 1.
         """)
+        st.header('')
+        st.image('images/knn-1.png', caption='K-Nearest Neighbors (KNN)', use_column_width=True)
+        st.header("")
+        st.caption("Example of K-Nearest Neighbors (KNN) in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.neighbors import KNeighborsClassifier
+
+# Create a custom dataset
+X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]])
+y = np.array([1, 1, 1, 0, 0])
+
+# Train a KNN model
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X, y)
+
+# Create a meshgrid for plotting decision boundaries
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                     np.arange(y_min, y_max, 0.01))
+
+# Predict on the meshgrid
+Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+# Visualize the data points and decision boundaries
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='viridis')
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', edgecolors='k', s=50)
+plt.title('K-Nearest Neighbors (KNN) Example')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
+    '''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">Random Forest</p>', unsafe_allow_html=True)
         st.write("""
-        Random Forest is an ensemble learning algorithm that combines multiple decision trees. It reduces overfitting and enhances predictive accuracy. Random Forest is robust and performs well on various types of datasets.
-        """)
+        Random forest is an expansion of decision tree and useful because it fixes the decision tree’s dilemma of unnecessarily forcing data points into a somewhat improper category.
+
+It works by first constructing decision trees with training data, then fitting new data within one of the trees as a “random forest.” Put simply, random forest averages your data to connect it to the nearest tree on the data scale.""")
+        st.header('')
+        st.image('images/random-forest.jpg', caption='Random Forest', use_column_width=True)
+        st.header("")
+        st.caption("Example of Random Forest in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
+
+# Create a custom dataset
+X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]])
+y = np.array([1, 1, 1, 0, 0])
+
+# Train a Random Forest model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# Create a meshgrid for plotting decision boundaries
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                     np.arange(y_min, y_max, 0.01))
+
+# Predict on the meshgrid
+Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+# Visualize the data points and decision boundaries
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='viridis')
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', edgecolors='k', s=50)
+plt.title('Random Forest Example')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
+    '''
+        st.code(code, language='python')
 
         st.markdown('<p class="titles">Artificial Neural Networks (ANN)</p>', unsafe_allow_html=True)
         st.write("""
         ANN is a deep learning algorithm inspired by the human brain's neural structure. It consists of interconnected layers of neurons, each performing weighted computations. ANNs are powerful for complex tasks but require careful tuning.
         """)
+        st.header("")
+        st.image('images/The-layout-of-the-deep-backpropagating-artificial-neural-network-ANN-using-TensorFlow.png', caption='Artificial Neural Networks (ANN)', use_column_width=True)
+        st.caption("Example of Artificial Neural Networks (ANN) in Practice")
+        code = '''import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from sklearn.model_selection import train_test_split
+
+# Create a custom dataset
+X = np.array([[1, 2], [2, 3], [3, 3], [2, 1], [3, 2]])
+y = np.array([1, 1, 1, 0, 0])
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Build an Artificial Neural Network model
+model = Sequential()
+model.add(Dense(8, input_dim=2, activation='relu'))
+model.add(Dense(1, activation='sigmoid'))
+
+# Compile the model
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Train the model
+model.fit(X_train, y_train, epochs=50, batch_size=2, verbose=0)
+
+# Evaluate the model on the test set
+loss, accuracy = model.evaluate(X_test, y_test)
+print(f'Test Accuracy: {accuracy * 100:.2f}%')
+
+# Create a meshgrid for plotting decision boundaries
+x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
+y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01),
+                     np.arange(y_min, y_max, 0.01))
+
+# Predict on the meshgrid
+Z = model.predict_classes(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+
+# Visualize the data points and decision boundaries
+plt.contourf(xx, yy, Z, alpha=0.3, cmap='viridis')
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', edgecolors='k', s=50)
+plt.title('Artificial Neural Network (ANN) Example')
+plt.xlabel('Feature 1')
+plt.ylabel('Feature 2')
+plt.show()
+
+    '''
+        st.code(code, language='python')
 
         st.write("""
-        Understanding these algorithms will enable you to make informed decisions when selecting models in the application. For more detailed information on each algorithm's parameters, consult the [Model Training](#model-training) section.
+        :red[Understanding these algorithms will enable you to make informed decisions when selecting models in the application. For more detailed information on each algorithm's parameters, consult the [Model Training](#model-training) section.]
         """)
 
     # Usability Testing
