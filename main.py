@@ -134,8 +134,9 @@ def main():
                     preprocessed_df = scaler(preprocessed_df)
 
                 # Feature scaling checkbox
+                editor_key = hash(preprocessed_df.to_numpy().tobytes())
                 st.header("")
-                st.data_editor(preprocessed_df, num_rows="dynamic")
+                st.data_editor(preprocessed_df, num_rows="dynamic", key=editor_key)
 
                 # Display preprocessed data in data editor
                 st.header("")
