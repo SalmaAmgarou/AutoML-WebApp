@@ -71,7 +71,7 @@ def load_data():
         selected_df = pd.concat(dataframes)
 
         # Display the data editor for further editing
-        edited_df = st.data_editor(selected_df, num_rows="dynamic")
+        edited_df = st.data_editor(selected_df)
 
         return edited_df
 
