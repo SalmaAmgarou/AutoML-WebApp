@@ -99,6 +99,7 @@ def main():
                     preprocessed_df = st.session_state.original_df.copy()
                 else:
                     preprocessed_df = st.session_state.preprocessed_df.copy()
+
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
@@ -107,7 +108,6 @@ def main():
                 delete_columns_checkbox = st.checkbox("Enable Column Deletion")
                 if delete_columns_checkbox:
                     preprocessed_df = delete_columns(preprocessed_df)
-
                 # Handle missing values (numeric) checkbox
                 missing_values_numeric = st.sidebar.checkbox("Handle Missing Values (Numeric)")
                 if missing_values_numeric:
@@ -135,7 +135,7 @@ def main():
 
                 # Feature scaling checkbox
                 st.header("")
-                st.data_editor(preprocessed_df)
+                st.data_editor(preprocessed_df, num_rows="dynamic")
 
                 # Display preprocessed data in data editor
                 st.header("")
