@@ -60,12 +60,6 @@ def load_data():
             st.warning("No valid data found in the uploaded files.")
             return None  # Return None if no valid data is found
 
-        # Display information and allow editing of the concatenated DataFrames
-        st.write("")
-        st.write("")
-        st.subheader("① Edit and select cells")
-        st.info("💡 You can edit the cells in the table below.")
-        st.caption("")
 
         # Concatenate DataFrames from all uploaded files
         selected_df = pd.concat(dataframes)

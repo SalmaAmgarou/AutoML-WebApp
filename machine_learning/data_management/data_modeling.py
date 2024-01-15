@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, plot_tree
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVR, SVC
-import joblib
+import pickle
 from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 from sklearn.neural_network import MLPRegressor, MLPClassifier
@@ -294,11 +294,10 @@ def select_model_and_train(df, task):
                             unsafe_allow_html=True)
 
                 plot_regression_results(y_test, y_pred, y_test - y_pred)
-                save_model_directory = r"machine_learning/Pre-trainedModels"
-
-                # Save the trained model to a file in the specified directory
-                model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
-                joblib.dump(model, model_filename)
+                save_model_directory = r"machine_learning/Pre-trainedModel"
+                model_filename = os.path.join(save_model_directory, f"{model_option}_model.pkl")
+                with open(model_filename, 'wb') as model_file:
+                    pickle.dump(model, model_file)
                 st.success(f"Model trained successfully! Model saved as {model_filename}")
 
 
@@ -332,12 +331,13 @@ def select_model_and_train(df, task):
                 plot_roc_curve(y_test, model.predict_proba(X_test))
 
                 # Save the trained model to a file
-                save_model_directory = r"machine_learning/Pre-trainedModels"
+                save_model_directory = r"machine_learning/Pre-trainedModel"
+                model_filename = os.path.join(save_model_directory, f"{model_option}_model.pkl")
+                with open(model_filename, 'wb') as model_file:
+                    pickle.dump(model, model_file)
+                st.success(f"Model trained successfully! Model saved as {model_filename}")
 
-                # Save the trained model to a file in the specified directory
-                model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
-                joblib.dump(model, model_filename)
-                st.success(f"Model saved as {model_filename} ! ")
+
 
             elif task == "Clustering":
                 # Metrics for Clustering task (K-Means)
@@ -367,11 +367,15 @@ def select_model_and_train(df, task):
                     plt.xlabel('Feature 1')
                     plt.ylabel('Feature 2')
                     st.pyplot(plt)
-                    save_model_directory = r"machine_learning/Pre-trainedModels"
 
                     # Save the trained model to a file in the specified directory
-                    model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
-                    joblib.dump(model, model_filename)
+                    save_model_directory = r"machine_learning/Pre-trainedModel"
+                    os.makedirs(save_model_directory, exist_ok=True)  # Create directory if it doesn't exist
+                    model_filename = os.path.join(save_model_directory, f"{model_option}_model.pkl")
+
+                    with open(model_filename, 'wb') as model_file:
+                        pickle.dump(model, model_file)
+
                     st.success(f"Model trained successfully! Model saved as {model_filename}")
 
 
