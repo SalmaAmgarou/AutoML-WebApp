@@ -38,3 +38,7 @@ The pretrained_models folder contains *Pre-trained* models saved using joblib.
 Contributions
 
 Feel free to contribute or report issues by opening a GitHub Issue.
+
+## Deployed Application
+
+Access the deployed application [here](https://aisd-hafdaoui-amgarou.streamlit.app/).
