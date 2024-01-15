@@ -31,9 +31,16 @@ def main():
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         .dot-matrix {
             font-family: 'VT323', monospace;
+            font-size: 40px;
+            margin: 0; /* Set margins to zero */
+            padding: 0; /* Set padding to zero */
+        }
+        .sidebar{
+            font-family: 'VT323', monospace;
             font-size: 32px;
             margin: 0; /* Set margins to zero */
             padding: 0; /* Set padding to zero */
+            color: #FFA500;
         }
         .title {
             font-family: 'VT323', monospace;
@@ -102,7 +109,7 @@ def main():
                     preprocessed_df = st.session_state.preprocessed_df.copy()
 
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="dot-matrix">Features selection</p>', unsafe_allow_html=True)
+                st.sidebar.markdown('<p class="sidebar">Features Selection</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
 
                 # Enable column deletion checkbox
@@ -123,7 +130,7 @@ def main():
                 if handle_out:
                     preprocessed_df = handle_outliers(preprocessed_df, threshold=3.0)
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
-                st.sidebar.markdown('<p class="dot-matrix">Data transformation</p>', unsafe_allow_html=True)
+                st.sidebar.markdown('<p class="sidebar">Data Transformation</p>', unsafe_allow_html=True)
                 st.sidebar.markdown('<p class="divider">####################</p>', unsafe_allow_html=True)
 
                 # Encoding categorical and numeric checkbox

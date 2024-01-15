@@ -1,4 +1,5 @@
 import os
+
 import streamlit as st
 from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, confusion_matrix, classification_report
@@ -26,7 +27,7 @@ from sklearn.metrics import silhouette_score, davies_bouldin_score
 def select_target(dataframe):
     if dataframe is not None:
         st.header("")
-        st.markdown('<p class="dot-matrix">Select column to predict</p>', unsafe_allow_html=True)
+        st.markdown('<p class="titles">Select column to predict</p>', unsafe_allow_html=True)
         target = tuple(dataframe.columns)
         selected_target = st.selectbox('Select target for prediction', target)
         st.write('selected target:', selected_target)
@@ -36,7 +37,7 @@ def select_target(dataframe):
 def split_data(dataframe):
     if dataframe is not None:
         st.header("")
-        st.markdown('<p class="dot-matrix">Select train : test ratio</p>', unsafe_allow_html=True)
+        st.markdown('<p class="titles">Select train : test ratio</p>', unsafe_allow_html=True)
         traintest = st.slider('train:test:', min_value=0, max_value=100, step=5, value=80)
         train_ratio = traintest / 100
         st.write('train ratio:', train_ratio)
@@ -47,6 +48,7 @@ def split_data(dataframe):
 def plot_metrics(metrics_result):
     if metrics_result:
         st.subheader('Metrics')
+        st.markdown('<p class="titles">Metrics</p>', unsafe_allow_html=True)
         st.write(metrics_result)
 
 def plot_decision_tree(model):
@@ -57,7 +59,7 @@ def plot_decision_tree(model):
 
 def plot_confusion_matrix(y_test, y_pred):
     cm = confusion_matrix(y_test, y_pred)
-    st.subheader('Confusion Matrix')
+    st.markdown('<p class="titles">Confusion Matrix</p>', unsafe_allow_html=True)
     display = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=np.unique(y_test))
     display.plot(cmap='Blues', ax=plt.gca())
     plt.xlabel('Predicted Label')
@@ -101,7 +103,7 @@ def plot_regression_results(y_true, y_pred, residuals):
 # Function to plot classification report
 def plot_classification_report(model, X_test, y_test, classes):
     report = classification_report(y_test, model.predict(X_test), output_dict=True)
-    st.subheader('Classification Report')
+    st.markdown('<p class="titles">Classification Report</p>', unsafe_allow_html=True)
     st.text(classification_report(y_test, model.predict(X_test)))
 
     # Instantiate the classification report visualizer
@@ -116,7 +118,7 @@ def plot_classification_report(model, X_test, y_test, classes):
 
 # Function to plot ROC curve
 def plot_roc_curve(y_true, y_probas):
-    st.subheader('ROC Curve')
+    st.markdown('<p class="titles">ROC Curve</p>', unsafe_allow_html=True)
     fig, ax = plt.subplots()
     skplt.metrics.plot_roc_curve(y_true, y_probas, ax=ax)
     plt.xlabel('False Positive Rate')
@@ -155,17 +157,18 @@ def select_model_and_train(df, task):
     # Check the task type (Classification, Regression, or Clustering)
     if task == "Classification":
         st.header("")
-        st.markdown('<p class="dot-matrix">Select Classification Model</p>', unsafe_allow_html=True)
+        st.markdown('<p class="titles">Select Classification Model</p>', unsafe_allow_html=True)
         model_option = st.selectbox("Select Model", ["Decision Trees", "Naive Bayes", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["accuracy"]
     elif task == "Regression":
         # User interface for selecting Regression model
-        st.header('Select Regression Model')
+        st.markdown('<p class="titles">Select Regression Model</p>', unsafe_allow_html=True)
         model_option = st.selectbox("Select Model", ["Linear Regression", "Decision Trees", "Support Vector Machine (SVM)", "K-Nearest Neighbors", "Random Forest", "Artificial Neural Networks"])
         metrics = ["MAE", "MSE", "RMSE", "R2 Square", "Cross Validation RMSE"]
     elif task == "Clustering":
         # User interface for selecting Classification model
-        st.header('K-Means Clustering')
+        st.markdown('<p class="titles">K-Means Clustering</p>', unsafe_allow_html=True)
+
         model_option = "K-Means"
         metrics = ["inertia"]
         model = KMeans()
@@ -186,7 +189,8 @@ def select_model_and_train(df, task):
             except Exception as e:
                 st.error(f"An error occurred during training: {str(e)}")
 
-        st.subheader("Inertia values for different numbers of clusters:")
+        st.markdown('<p class="titles">Inertia values for different numbers of clusters:</p>', unsafe_allow_html=True)
+
         st.write(inertias)
 
         # Use the elbow method to find the optimal number of clusters
@@ -275,17 +279,22 @@ def select_model_and_train(df, task):
 
                 metrics_result = {"MAE": mae, "MSE": mse, "RMSE": rmse, "R2 Square": r2_square, "Cross Validation RMSE": cv_rmse}
 
-                st.subheader('Regression Metrics')
+                st.markdown('<p class="titles">Regression Metrics</p>',
+                            unsafe_allow_html=True)
 
                 plot_metrics(metrics_result)
 
                 # Plot Decision Tree if the model is DecisionTreeRegressor
                 if isinstance(model, DecisionTreeRegressor):
-                    st.subheader('Decision Tree Visualization')
+                    st.markdown('<p class="titles">Decision Tree Visualization</p>',
+                                unsafe_allow_html=True)
+
                     plot_decision_tree(model)
-                st.subheader('Regression Results')
+                st.markdown('<p class="titles">Regression Results</p>',
+                            unsafe_allow_html=True)
+
                 plot_regression_results(y_test, y_pred, y_test - y_pred)
-                save_model_directory = r"machine_learning/Pre-trainedModel"
+                save_model_directory = r"machine_learning/Pre-trainedModels"
 
                 # Save the trained model to a file in the specified directory
                 model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
@@ -302,7 +311,9 @@ def select_model_and_train(df, task):
                 metrics_result = {"Accuracy": accuracy}
                 # Display Classification metrics
                 st.divider()
-                st.subheader('Model Metrics')
+                st.markdown('<p class="titles">Model Metrics</p>',
+                            unsafe_allow_html=True)
+
                 st.success(f"Model trained successfully! {metrics_result}")
                 st.divider()
                 # Display confusion matrix
@@ -312,14 +323,16 @@ def select_model_and_train(df, task):
                 plot_classification_report(model, X_test, y_test, classes=np.unique(y_test))
                 st.divider()
                 if isinstance(model, DecisionTreeClassifier):
-                    st.subheader('Decision Tree Visualization')
+                    st.markdown('<p class="titles">Decision Tree Visualization</p>',
+                                unsafe_allow_html=True)
+
                     plot_decision_tree(model)
                     st.divider()
                 # Display ROC curve
                 plot_roc_curve(y_test, model.predict_proba(X_test))
 
                 # Save the trained model to a file
-                save_model_directory = r"machine_learning/Pre-trainedModel"
+                save_model_directory = r"machine_learning/Pre-trainedModels"
 
                 # Save the trained model to a file in the specified directory
                 model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
@@ -335,7 +348,9 @@ def select_model_and_train(df, task):
                     metrics_result = {"Inertia": inertia}
 
                     # Display clustering metrics
-                    st.subheader('Clustering Metrics')
+                    st.markdown('<p class="titles">Clustering Metrics</p>',
+                                unsafe_allow_html=True)
+
                     st.text(f"Inertia: {inertia}")
 
                     # Silhouette Score
@@ -345,13 +360,14 @@ def select_model_and_train(df, task):
                     # Davies-Bouldin Index
                     davies_bouldin_idx = davies_bouldin_score(X, labels)
                     st.success(f'Davies-Bouldin Index: {davies_bouldin_idx}')
-                    st.subheader('Cluster Visualization')
+                    st.markdown('<p class="titles">Cluster Visualization</p>',
+                                unsafe_allow_html=True)
                     # You can also display a plot of the clusters if you like
                     plt.scatter(X.iloc[:, 0], X.iloc[:, 1], c=labels, cmap='viridis')
                     plt.xlabel('Feature 1')
                     plt.ylabel('Feature 2')
                     st.pyplot(plt)
-                    save_model_directory = r"machine_learning/Pre-trainedModel"
+                    save_model_directory = r"machine_learning/Pre-trainedModels"
 
                     # Save the trained model to a file in the specified directory
                     model_filename = os.path.join(save_model_directory, f"{model_option}_model.joblib")
