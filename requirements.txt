@@ -21,3 +21,4 @@ scikit-plot==0.3.7
 plotly==5.18.0
 yellowbrick==1.5
 streamlit-option-menu==0.3.6
+xlrd==2.0.1
