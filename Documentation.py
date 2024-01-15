@@ -60,7 +60,7 @@ def documentation():
         st.write("""
         [![Getting Started](insert_youtube_thumbnail_url)](insert_youtube_video_url)
         
-        In this tutorial, we walk you through the process of getting started with our application. Learn how to upload your dataset, preprocess data, and explore the key features.
+        In this tutorial, we walk you through the process of getting started with our application. Learn how to upload your dataset, visualization techniques, and explore the key features.
         """)
 
         st.markdown('<p class="titles">Video Tutorial: Data Modeling</p>', unsafe_allow_html=True)
