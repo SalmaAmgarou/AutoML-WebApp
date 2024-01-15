@@ -6,7 +6,6 @@ import time
 
 
 # Function to visualize data based on user-selected options
-
 def visualize_data(dataframe):
     st.markdown('<p class="visualize">Visualization Options</p>', unsafe_allow_html=True)
 
