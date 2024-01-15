@@ -52,28 +52,36 @@ def documentation():
     # Code Comments
     with tab2:
         st.markdown('<p class="title">Tutorials</p>', unsafe_allow_html=True)
+        st.markdown('<p class="titles">Video Tutorial: Getting Started</p>', unsafe_allow_html=True)
         st.write("""
         Tutorials are a great way to quickly learn how to use our application. We have provided video tutorials to guide you through various features and functionalities. Watch the tutorials to make the most out of the application.
         """)
 
-        st.markdown('<p class="titles">Video Tutorial: Getting Started</p>', unsafe_allow_html=True)
+        video_path = "vedios/getting_start.mp4"
+
+        # Display the video
+        st.video(video_path)
+
         st.write("""
-        [![Getting Started](insert_youtube_thumbnail_url)](insert_youtube_video_url)
-        
-        In this tutorial, we walk you through the process of getting started with our application. Learn how to upload your dataset, visualization techniques, and explore the key features.
+        In this tutorial, we walk you through the process of getting started with our application. 
+        Learn how to upload your dataset, visualization techniques, and explore the key features.
         """)
 
         st.markdown('<p class="titles">Video Tutorial: Data Modeling</p>', unsafe_allow_html=True)
+        video_path = "vedios/modeling.mp4"
+
+        # Display the video
+        st.video(video_path)
         st.write("""
-        [![Data Modeling](insert_youtube_thumbnail_url)](insert_youtube_video_url)
-        
         Explore the data modeling capabilities of our application. Understand how to select target columns, choose machine learning models, and evaluate their performance.
         """)
 
         st.markdown('<p class="titles">Video Tutorial: Advanced Features</p>', unsafe_allow_html=True)
-        st.write("""
-        [![Advanced Features](insert_youtube_thumbnail_url)](insert_youtube_video_url)
-        
+        video_path = "vedios/adv.mp4"
+
+        # Display the video
+        st.video(video_path)
+        st.write("""    
         Dive into advanced features of the application. This tutorial covers advanced data preprocessing, visualization techniques, and tips for optimizing your machine learning workflow.
         """)
 
