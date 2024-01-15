@@ -31,6 +31,12 @@ def main():
         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
         .dot-matrix {
             font-family: 'VT323', monospace;
+            font-size: 34px;
+            margin: 0; /* Set margins to zero */
+            padding: 0; /* Set padding to zero */
+        }
+        .dot-matrixx {
+            font-family: 'VT323', monospace;
             font-size: 40px;
             margin: 0; /* Set margins to zero */
             padding: 0; /* Set padding to zero */
@@ -161,7 +167,7 @@ def main():
         # Tab 3: Data Modeling
         with tab3:
             st.header("")
-            st.markdown('<p class="titles">Data Modeling</p>', unsafe_allow_html=True)
+            st.markdown('<p class="dot-matrixx">Data Modeling</p>', unsafe_allow_html=True)
             st.header("")
 
             # Check if preprocessed data is available
