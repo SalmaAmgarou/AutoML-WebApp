@@ -42,3 +42,4 @@ Feel free to contribute or report issues by opening a GitHub Issue.
 ## Deployed Application
 
 Access the deployed application [here](https://aisd-hafdaoui-amgarou.streamlit.app/).
+Watch videos of thw Demo of the App available in the folder "videos"
