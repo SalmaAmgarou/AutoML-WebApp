@@ -10,7 +10,7 @@ Welcome to **Machine Learning in Action**, an interactive Streamlit app that all
 
 *Version 1.0*
 
-## About
+## Abot
 
 Explore various features of the app, including:
 
@@ -42,4 +42,5 @@ Feel free to contribute or report issues by opening a GitHub Issue.
 ## Deployed Application
 
 Access the deployed application [here](https://aisd-hafdaoui-amgarou.streamlit.app/).
-Watch videos of thw Demo of the App available in our Linkedin post : https://www.linkedin.com/posts/hamza-hafdaoui_embark-on-a-transformative-journey-through-activity-7153835273427066880-m7aT?utm_source=share&utm_medium=member_desktop
+
+Watch videos of the Demo of the App available in our Linkedin post : https://www.linkedin.com/posts/hamza-hafdaoui_embark-on-a-transformative-journey-through-activity-7153835273427066880-m7aT?utm_source=share&utm_medium=member_desktop
